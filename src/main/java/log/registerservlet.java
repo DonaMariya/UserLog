@@ -1,6 +1,9 @@
 package log;
 
 import java.io.*;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 //import javax.servlet.*;
 //import javax.servlet.http.*;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 
 public class registerservlet extends HttpServlet{
-	public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html");
 		PrintWriter out =response.getWriter();
 		String username = request.getParameter("username");
@@ -22,6 +25,13 @@ public class registerservlet extends HttpServlet{
 			out.println("</body></html>");
 			
 		}
+		
+		request.setAttribute("email", email);
+		request.setAttribute("password", password);
+		request.setAttribute("username", username);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("Registered");
+		rd.forward(request, response);
 		out.close();
 	}
 }
